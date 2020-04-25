@@ -14,10 +14,10 @@ TARGET_DPI = 72
 parser = argparse.ArgumentParser(description='Converts an image of a topographic map into a ridgeline plot')
 parser.add_argument("image")
 parser.add_argument("--continuous", "-c", action="store_true", help="instead of only drawing the raised portions, draw each plot line continously for the whole width")
-parser.add_argument("--lines", "-l", default=100, help="number of plot lines")
-parser.add_argument("--scale", "-s", default=50, help="max elevation difference, higher = larger difference between low and high spots on the map")
-parser.add_argument("--line-width", "-w", default=3, help="the width of the plot lines")
-parser.add_argument("--roughness", "-r", default=5, help="the smoothing factor, higher = smoother terrain, lower = rougher terrain")
+parser.add_argument("--lines", "-l", default=100, type=int, help="number of plot lines")
+parser.add_argument("--scale", "-s", default=50, type=int, help="max elevation difference, higher = larger difference between low and high spots on the map")
+parser.add_argument("--line-width", "-w", default=3, type=float, help="the width of the plot lines")
+parser.add_argument("--roughness", "-r", default=5, type=float, help="the smoothing factor, higher = smoother terrain, lower = rougher terrain")
 parser.add_argument("--line-color", default="white", help="the color of the lines (https://matplotlib.org/3.1.0/gallery/color/named_colors.html)")
 parser.add_argument("--background-color", default="black", help="the color of the background (https://matplotlib.org/3.1.0/gallery/color/named_colors.html)")
 args = parser.parse_args()
@@ -77,7 +77,7 @@ for y in range(0, height):
 
 end_time = time.time()
 print("Plotting finished ({}s)".format(round(end_time - start_time, 3)))
-
+print("Saving file...", end="\r")
 plt.grid(False)
 plt.axis("off")
 save_file_name = "{}-l{}-s{}-b{}-w{}.png".format(os.path.basename(args.image), args.lines, args.scale, args.roughness, args.line_width)
